@@ -1,7 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>NewsFeed | Pages | 404</title>
+{% extends 'base.html' %}
+
+{% load static %}
+
+  {% block content %}
+
+<title>Yangiliklar lentasi | Pages | 404</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -183,7 +186,7 @@
       </div>
     </div>
     <div class="footer_bottom">
-      <p class="copyright">Copyright &copy; 2045 <a href="../index.html">NewsFeed</a></p>
+      <p class="copyright">Copyright &copy; 2045 <a href="../index.html">Yangiliklar lentasi</a></p>
       <p class="developer">Developed By Wpfreeware</p>
     </div>
   </footer>
@@ -196,5 +199,4 @@
 <script src="../assets/js/jquery.newsTicker.min.js"></script> 
 <script src="../assets/js/jquery.fancybox.pack.js"></script> 
 <script src="../assets/js/custom.js"></script>
-</body>
-</html>
+  {% endblock content %}

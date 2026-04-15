@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+  {% block content %}
+<h1>Yangilikni o'chirish</h1>
+<form method="post">{% csrf_token %}
+
+    <p>
+        {{ news.title }} nomli yangilikni o'chirasizmi
+    </p>
+    <button type="submit">ha, o'chiraman</button>
+</form>
+
+ {% endblock content %}

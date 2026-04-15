@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+  {% block content %}
+    <title>Yangilik qo'shish</title>
+</head>
+<body>
+<h1>Yangilik qo'shish</h1>
+<!--<form  method="post"> {% csrf_token %}-->
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"> Qo'shish </button>
+</form>
+
+ {% endblock content %}

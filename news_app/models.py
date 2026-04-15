@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.datetime_safe import datetime
+
 
 
 class Category(models.Model):
@@ -34,6 +36,7 @@ class News(models.Model):
 
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.Draft)
 
+
     objects = models.Manager()
     published = PublishManager()
 
@@ -55,9 +58,19 @@ class Contact(models.Model):
         return self.user
 
 
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
 
 
+    class Meta:
+        ordering = ['-created_time']
 
+    def __str__(self):
+        return self.body
 
 

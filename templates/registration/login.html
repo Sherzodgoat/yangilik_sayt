@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Login page{% endblock %}
+
+{% block content %}
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; background: #f9f9f7;">
+  <div style="width: 100%; max-width: 420px;">
+
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #f5f5f2; border: 1px solid #e0e0da; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 20px;">
+        👤
+      </div>
+      <h1 style="font-size: 20px; font-weight: 500; margin: 0 0 6px;">Kirish oynasi</h1>
+      <p style="font-size: 13px; color: #888; margin: 0;">Hisobingizga kiring.</p>
+    </div>
+
+    <div style="background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; padding: 1.75rem;">
+      <form method="post">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px;">Foydalanuvchi nomi</label>
+          {{ form.username }}
+        </div>
+
+        <div style="margin-bottom: 0.75rem;">
+          <label style="display: block; font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px;">Parol</label>
+          {{ form.password }}
+        </div>
+
+        <div style="text-align: right; margin-bottom: 1.25rem;">
+          <a href="{% url 'password_reset' %}" style="font-size: 12px; color: #888; text-decoration: underline;">Parolni unutdingizmi?</a>
+        </div>
+
+        {% if form.errors %}
+        <div style="margin-bottom: 1rem; padding: 10px 12px; background: #fcebeb; border: 1px solid #f7c1c1; border-radius: 8px;">
+          <p style="font-size: 13px; color: #a32d2d; margin: 0;">Foydalanuvchi nomi yoki parol noto'g'ri.</p>
+        </div>
+        {% endif %}
+
+        <button type="submit" style="width: 100%; padding: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: #fff; color: #111;">
+          Kirish
+        </button>
+      </form>
+    </div>
+
+    <p style="text-align: center; font-size: 13px; color: #888; margin-top: 1.25rem;">
+      Hisobingiz yo'qmi?
+      <a href="{% url 'register' %}" style="color: #111; text-decoration: underline;">Ro'yxatdan o'tish</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,6 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+
+{% load static %}
+
+  {% block content %}
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -11,5 +13,4 @@
 <p>{{ news_detail.body }}</p>
 <img src="{{ news_detail.image.url }}" alt="bu rasm">
 
-</body>
-</html>
+  {% endblock content %}

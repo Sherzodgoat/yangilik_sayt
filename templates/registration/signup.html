@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ro'yxatdan o'tish</title>
+</head>
+<body>
+
+<h2>Ro'yxatdan o'tish</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Ro'yxatdan o'tish</button>
+</form>
+
+<p>Hisobingiz bormi?
+    <a href="{% url 'login' %}">Kirish</a>
+</p>
+
+</body>
+</html>

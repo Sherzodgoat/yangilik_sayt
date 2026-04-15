@@ -1,9 +1,10 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>NewsFeed</title>
+<title>{% blocktrans %}Bosh sahifa{% endblocktrans %}</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,14 +34,26 @@
         <div class="header_top">
           <div class="header_top_left">
             <ul class="top_nav">
-              <li><a href="{% url 'home_page' %}">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="{% url 'contact_page' %}">Contact</a></li>
+              <li><a href="{% url 'home_page' %}">{% blocktrans %}Bosh sahifa{% endblocktrans %}</a></li>
+              <li><a href="{% url 'contact_page' %}">{% blocktrans %}Biz haqimizda{% endblocktrans %}</a></li>
+              <li><a href="{% url 'contact_page' %}">{% blocktrans %}Biz bilan aloqa{% endblocktrans %}</a></li>
             </ul>
           </div>
           <div class="header_top_right">
-            <p>{% now "l, F d, Y" %}</p>
+             <p> {% now "jS F Y H:i" %}
+                {% if request.user.is_authenticated %}
+                <a style="color: blue" href="{% url 'profile' %}"> Profile</a>
+                <a style="color: red" href="{% url 'logout_req' %}">Logout</a>
+                {% else %}
+                <a style="color: green" href="{% url 'login' %}">Login</a>
+                {% endif %}
+
+             </p>
           </div>
+
+
+
+
         </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12">
@@ -58,14 +71,41 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="index.html"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
-          <li><a href="{% url 'texno_news' %}">Texnologiya</a></li>
-          <li><a href="#">Mahalliy</a></li>
-          <li><a href="#">Sport</a></li>
-          <li><a href="#">Siyosiy</a></li>
-          <li><a href="#">Iqtisodiy</a></li>
-          <li><a href="pages/contact.html">Contact Us</a></li>
-          <li><a href="pages/404.html">404 Page</a></li>
+          <li class="active"><a href="{% url 'home_page' %}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+          <li><a href="{% url 'uz_news' %}">{% blocktrans %}O'zbekiston{% endblocktrans %}</a></li>
+          <li><a href="{% url 'siyosiy_news' %}">{% blocktrans %}Siyosiy{% endblocktrans %}</a></li>
+          <li><a href="{% url 'iqtisoy_news' %}">{% blocktrans %}Iqtisodiy{% endblocktrans %}</a></li>
+          <li><a href="{% url 'texno_news' %}">{% blocktrans %}Texnologiya{% endblocktrans %}</a></li>
+          <li><a href="{% url 'sport_news' %}">{% blocktrans %}Sport{% endblocktrans %}</a></li>
+          <li><a href="{% url 'contact_page' %}">{% blocktrans %}Biz bilan bog'lanish{% endblocktrans %}</a></li>
+
+          {% if request.user.is_authenticated and request.user.is_superuser  %}
+          <li><a href="{% url 'create' %}">Yangilik qo'shish</a></li>
+          {% endif %}
+
+                    <li>
+
+          <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+              <input name="next" type="hidden" value="{{ redirect_to }}">
+              <select name="language">
+                  {% get_current_language as LANGUAGE_CODE %}
+                  {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% for language in languages %}
+                      <option value="{{ language.code }}"
+                              {% if language.code == LANGUAGE_CODE %}
+                                selected
+                              {% endif %}>
+                          {{ language.name_local }} ({{ language.code }})
+                      </option>
+                  {% endfor %}
+              </select>
+              <input type="submit" value="Go">
+          </form>
+
+          </li>
+
+
         </ul>
       </div>
     </nav>
@@ -73,17 +113,19 @@
   <section id="newsSection">
     <div class="row">
       <div class="col-lg-12 col-md-12">
-        <div class="latest_newsarea"> <span>Latest News</span>
+        <div class="latest_newsarea"> <span>{% blocktrans %}So'ngi yangiliklar{% endblocktrans %}</span>
           <ul id="ticker01" class="news_sticker">
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My First News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Second News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Third News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Four News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Five News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Six News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Seven News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Eight News Item</a></li>
-            <li><a href="#"><img src="{% static 'images/news_thumbnail2.jpg' %}" alt="">My Nine News Item</a></li>
+            {% for news in news_list %}
+            <li><a href="{% url 'detail_page' news.slug %}"><img src="{{ news.image.url }}" alt="">{{ news.title }}</a></li>
+            {% endfor %}
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Second News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Third News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Four News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Five News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Six News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Seven News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail3.jpg' %}" alt="">My Eight News Item</a></li>-->
+<!--            <li><a href="#"><img src="{% static 'images/news_thumbnail2.jpg' %}" alt="">My Nine News Item</a></li>-->
           </ul>
           <div class="social_area">
             <ul class="social_nav">
@@ -117,12 +159,12 @@
           <div class="footer_widget wow fadeInDown">
             <h2>Tag</h2>
             <ul class="tag_nav">
-              <li><a href="#">Games</a></li>
-              <li><a href="#">Sports</a></li>
-              <li><a href="#">Fashion</a></li>
+              <li><a href="{% url 'uz_news' %}">{% blocktrans %}O'zbekiston{% endblocktrans %}</a></li>
+              <li><a href="{% url 'siyosiy_news' %}">{% blocktrans %}Siyosiy{% endblocktrans %}</a></li>
+              <li><a href="{% url 'iqtisoy_news' %}">{% blocktrans %}Iqtisodiy{% endblocktrans %}</a></li>
+              <li><a href="{% url 'sport_news' %}">{% blocktrans %}Sports{% endblocktrans %}</a></li>
+              <li><a href=" {% url 'texno_news' %} ">{% blocktrans %}Texnalogiya{% endblocktrans %}</a></li>
               <li><a href="#">Business</a></li>
-              <li><a href="#">Life &amp; Style</a></li>
-              <li><a href="#">Technology</a></li>
               <li><a href="#">Photo</a></li>
               <li><a href="#">Slider</a></li>
             </ul>
@@ -140,7 +182,7 @@
       </div>
     </div>
     <div class="footer_bottom">
-      <p class="copyright">Copyright &copy; 2045 <a href="index.html">NewsFeed</a></p>
+      <p class="copyright">The author: Qodirjanov Sherzod &copy; {% now "jS F Y H:i" %}  <a href="index.html">Yangiliklar lentasi</a></p>
       <p class="developer">Developed By Wpfreeware</p>
     </div>
   </footer>
@@ -154,4 +196,4 @@
 <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 </body>
-</html
+</html>

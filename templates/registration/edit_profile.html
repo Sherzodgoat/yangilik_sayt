@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }} sahifasi{% endblock %}
+
+{% block content %}
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; background: #f9f9f7;">
+  <div style="width: 100%; max-width: 480px;">
+
+    <div style="background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; overflow: hidden;">
+
+      <div style="padding: 2rem 2rem 1.5rem; border-bottom: 1px solid #e5e5e0; display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #e6f1fb; border: 1px solid #b5d4f4; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; color: #185fa5; flex-shrink: 0;">
+          {{ user.username|first|upper }}
+        </div>
+        <div>
+          <h1 style="font-size: 17px; font-weight: 500; margin: 0 0 3px;">{{ user.username }} profilini tahrirlash</h1>
+          <p style="font-size: 13px; color: #888; margin: 0;">Ma'lumotlaringizni yangilang.</p>
+        </div>
+      </div>
+
+      <div style="padding: 1.75rem 2rem;">
+
+        {# enctype="multipart/form-data" — rasm yuklash uchun MUHIM! #}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% for field in user_form %}
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px;">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <p style="font-size: 12px; color: #a32d2d; margin: 4px 0 0;">{{ field.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+
+          {% for field in profile_form %}
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 13px; font-weight: 500; color: #555; margin-bottom: 6px;">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <p style="font-size: 12px; color: #a32d2d; margin: 4px 0 0;">{{ field.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+
+          <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+            <a href="{% url 'profile' %}" style="flex: 1; display: block; text-align: center; padding: 10px; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid #ccc; background: #fff; color: #111; text-decoration: none;">
+              Bekor qilish
+            </a>
+            <button type="submit" style="flex: 1; padding: 10px; font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: #fff; color #111;">
+              Saqlash
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

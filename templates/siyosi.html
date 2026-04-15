@@ -15,7 +15,7 @@
               <li><a href="{% url 'texno_news' %}">Texnalogiya</a></li>
               <li class="active">O'zbekiston</li>
             </ol>
-            <h1>{% blocktrans %}Texnologiya oid yangiliklar{% endblocktrans %}</h1>
+            <h1>{% blocktrans %}Siyosiy yangiliklar{% endblocktrans %}</h1>
 
             <ul class="spost_nav">
 
@@ -45,14 +45,13 @@
           <div class="single_sidebar">
             <h2><span>{% blocktrans %}Yangiliklar{% endblocktrans %}</span></h2>
             <ul class="spost_nav">
-             {% for news in latest_news_5 %}
+              {% for news in latest_news_5 %}
               <li>
                 <div class="media wow fadeInDown"> <a href="{% url 'detail_page' news.slug %}" class="media-left"> <img alt="" src="{{ news.image.url }}"> </a>
                   <div class="media-body"> <a href="{% url 'detail_page' news.slug %}" class="catg_title"> {{ news.title }}</a> </div>
                 </div>
               </li>
               {% endfor %}
-
 <!--              <li>-->
 <!--                <div class="media wow fadeInDown"> <a href="single_page.html" class="media-left"> <img alt="" src="{% static 'images/post_img2.jpg' %}"> </a>-->
 <!--                  <div class="media-body"> <a href="single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>-->
@@ -145,7 +144,6 @@
       </div>
     </div>
   </section>
-
 
   {% endblock content %}
 

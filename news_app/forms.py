@@ -1,10 +1,14 @@
 from django import forms
+from news_app.models import Contact, News, Comment
 
-from news_app.models import Contact
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']  # faqat comment text
 
 
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        # fields = ['user', 'email', 'msg']
         fields = '__all__'
