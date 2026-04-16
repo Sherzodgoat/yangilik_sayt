@@ -105,3 +105,5 @@ class SignupView(View):
 
         return render(request, 'registration/signup.html', {'form': form})
 
+
+
